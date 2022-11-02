@@ -73,6 +73,7 @@ int main() {
         zomPos[i].y = 350;
         zomSpd[i] = rand() % 3 + 1;
         zombie[i].setOrigin(51,53);
+        zomhide[i] = 0;
     }
     chara.scale({0.3,0.3});
     axe.scale({0.15,0.15});
@@ -88,7 +89,12 @@ int main() {
             }
         }
 
-        if (!gv) {
+        if (cnt == 5){
+            app.clear();
+            sound.stop();
+            app.draw(win);
+        }
+        else if (!gv) {
                 if (Keyboard::isKeyPressed(Keyboard::Right)) {
                 charPos.x+=5;
                 flip[5] = 1;
@@ -104,12 +110,13 @@ int main() {
             sound.play();
             shot = true;
             bulletPos = charPos;
+        bulletPos.y +=25;
             if (flip[5] == 1)
                 shootDir = 1;
             else
                 shootDir = -1;
         }
-        if (Keyboard::isKeyPressed(Keyboard::Up)) if (dy==0) dy = -13;
+        if (Keyboard::isKeyPressed(Keyboard::Up)) if (dy==0) dy = -15;
 
         if (dy != 0) dy += 0.4;
         charPos.y+=dy;
@@ -149,22 +156,17 @@ int main() {
                 if (axe.getGlobalBounds().intersects(zombie[i].getGlobalBounds()) && zomhide[i] == 0) {
                     zomhide[i] = 1;
                     shot = false;
-                    cnt--;
-                if (zomhide[i] == 1) cnt++;
+                    cnt++;
+                    std::cout << cnt << std::endl;
             }
         }
-        app.draw(chara);
-        }
-        else if (cnt == 5){
-            app.clear();
-            app.draw(win);
+            app.draw(chara);
         }
         else {
             app.clear();
             app.draw(gamev);
         }
         app.display();
-        cnt = 0;
     }
     return 0;
 }
