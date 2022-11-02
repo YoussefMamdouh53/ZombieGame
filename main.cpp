@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include <bits/stdc++.h>
 #include <SFML/Audio.hpp>
 
 #define ZOMCNT 5
@@ -39,7 +39,7 @@ int main() {
     sound.setBuffer(buffer);
     Font font;
     font.loadFromFile("arial.ttf");
-    Text gamev, win;
+    Text gamev, win, score;
     gamev.setFont(font);
     gamev.setString("Game Over");
     gamev.setCharacterSize(52);
@@ -49,6 +49,10 @@ int main() {
     win.setString("You Win");
     win.setCharacterSize(52);
     win.setPosition(1900/2 - win.getGlobalBounds().width/2, 504/2 - win.getGlobalBounds().height/2);
+    score.setFont(font);
+    score.setString("0");
+    score.setCharacterSize(52);
+    score.setPosition(1900/2 - win.getGlobalBounds().width/2, 50);
 
 
     Texture characterT, backgroundT, zombieT, axeT;
@@ -96,12 +100,12 @@ int main() {
         }
         else if (!gv) {
                 if (Keyboard::isKeyPressed(Keyboard::Right)) {
-                charPos.x+=5;
+                charPos.x+=10;
                 flip[5] = 1;
         }
         if (Keyboard::isKeyPressed(Keyboard::Left))
         {
-            charPos.x-=5;
+            charPos.x-=10;
             flip[5] = 0;
 
         }
@@ -160,7 +164,9 @@ int main() {
                     std::cout << cnt << std::endl;
             }
         }
+            score.setString(std::to_string(cnt));
             app.draw(chara);
+            app.draw(score);
         }
         else {
             app.clear();
